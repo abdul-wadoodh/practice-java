@@ -140,10 +140,11 @@ public class Main {
 
         Consumer<Employee> printEmployee = System.out::println;
 
-        updatedDevelopers.forEach(printEmployee);
+        for (Employee employee : updatedDevelopers) {
+            printEmployee.accept(employee);
+        }
 
-        Map<String, List<Employee>> employeesGroupedByRole = employees.stream()
-                .collect(Collectors.groupingBy(Employee::getRole));
+        Map<String, List<Employee>> employeesGroupedByRole = employees.stream().collect(Collectors.groupingBy(Employee::getRole));
 
         System.out.println("\nEmployees grouped by roles:");
         employeesGroupedByRole.forEach((role, employeeList) -> {
@@ -151,53 +152,5 @@ public class Main {
             employeeList.forEach(printEmployee);
         });
     }
-
-
-//    private static void displayEmployeeDetails(Connection connection, String query) throws SQLException {
-//        try (Statement statement = connection.createStatement();
-//             ResultSet resultSet = statement.executeQuery(query)) {
-//
-//            List<Employee> employees = new ArrayList<>();
-//            System.out.println("Employee and Manager details:");
-//
-//            while (resultSet.next()) {
-//                int id = resultSet.getInt("id");
-//                String employeeName = resultSet.getString("employeeName");
-//                String role = resultSet.getString("role");
-//                double salary = resultSet.getDouble("salary");
-//                String managerName = resultSet.getString("managerName");
-//                int managerId = resultSet.getInt("managerId");
-//
-//                Employee employee = new Employee(id, employeeName, role, salary, managerId);
-//                employees.add(employee);
-//
-//                System.out.printf("Employee ID: %d, Name: %s, Role: %s, Salary: %.2f, Manager: %s%n",
-//                        id, employeeName, role, salary, managerName);
-//            }
-//
-//            Supplier<List<Employee>> updatedDevelopersSupplier = () ->
-//                    employees.stream()
-//                            .filter(employee -> employee.getRole().equals("Developer")) // Predicate
-//                            .map(employee -> {
-//                                double raisedSalary = employee.getSalary() * 1.20;
-//                                employee.setSalary(raisedSalary);
-//                                return employee; // Function
-//                            })
-//                            .collect(Collectors.toList());
-//
-//            List<Employee> updatedDevelopers = updatedDevelopersSupplier.get();
-//
-//            // Print updated employees using forEach (Consumer)
-//            updatedDevelopers.forEach(System.out::println);
-//
-//            Map<String, List<Employee>> employeesGroupedByRole = employees.stream().collect(Collectors.groupingBy(Employee::getRole));
-//
-//            System.out.println("\nEmployees grouped by roles:");
-//            employeesGroupedByRole.forEach((role, employeeList) -> {
-//                System.out.println("\nRole: " + role);
-//                employeeList.forEach(System.out::println);
-//            });
-//        }
-//    }
 
 }
